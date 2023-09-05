@@ -1,0 +1,20 @@
+﻿@model webcontrol.Models.ProductModel
+@{
+    Layout = null;
+    var product = ViewData["product"] as ProductModel;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Product</title>
+</head>
+<body>
+    <h2>Id: @product.Id</h2>
+    <h1>Tên: @product.Name</h1>
+    <h4>Nội dung: @product.Description</h4>
+    <h4>Giá: @product.Price</h4>
+</body>
+</html>
