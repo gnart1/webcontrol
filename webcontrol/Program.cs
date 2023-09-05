@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,8 +22,30 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints =>
+{
+    //sayhi
+    endpoints.MapGet("/sayhi", async (context) =>
+    {
+        await context.Response.WriteAsync($"Hello ASP.NET MVC {DateTime.Now}");
+    });
+
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern:"Home",
+        defaults: new
+        {
+            controller = "Home",
+            action = "Index"
+        });
+});
+
+app.MapControllerRoute(
+    name: "MyAreaProducts",
+    pattern: "Admin/{controller=Admin}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=home}/{action=index}/{id?}");
 
 app.Run();
