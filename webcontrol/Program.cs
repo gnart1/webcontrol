@@ -24,6 +24,7 @@ builder.Services.Configure<RazorViewEngineOptions>(options =>
 //builder.Services.AddSingleton<ProductService, ProductService>();
 //builder.Services.AddSingleton(typeof(ProductService));
 builder.Services.AddSingleton(typeof(ProductService), typeof(ProductService));
+builder.Services.AddSingleton<PlanetService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -61,9 +62,9 @@ app.UseEndpoints(endpoints =>
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 
 
-app.MapControllerRoute(
-    name: "MyAreaProducts",
-    pattern: "Admin/{controller=Admin}/{action=Index}/{id?}");
+//app.MapControllerRoute(
+//    name: "MyAreaProducts",
+//    pattern: "Admin/{controller=Admin}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
