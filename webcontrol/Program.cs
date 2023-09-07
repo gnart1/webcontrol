@@ -66,6 +66,12 @@ app.UseEndpoints(endpoints =>
 //    name: "MyAreaProducts",
 //    pattern: "Admin/{controller=Admin}/{action=Index}/{id?}");
 
+app.MapAreaControllerRoute
+    (
+    name: "default",
+    areaName : "ProductManage",
+    pattern: "/{controller}/{action=index}/{id?}"
+    );
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=home}/{action=index}/{id?}");
