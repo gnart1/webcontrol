@@ -1,8 +1,13 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
+using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 using webcontrol.Models;
 using webcontrol.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +28,14 @@ builder.Services.Configure<RazorViewEngineOptions>(options =>
 //builder.Services.AddSingleton<ProductService>();
 //builder.Services.AddSingleton<ProductService, ProductService>();
 //builder.Services.AddSingleton(typeof(ProductService));
-builder.Services.AddSingleton(typeof(ProductService), typeof(ProductService));
+//builder.Services.AddSingleton(typeof(ProductService), typeof(ProductService));
 builder.Services.AddSingleton<PlanetService>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(
+builder.Configuration.GetConnectionString("AppMvcConnectionString")
+));
+//builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+//builder.Services.AddScoped<IEmailSender, IEmailSender>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -52,12 +63,8 @@ app.UseEndpoints(endpoints =>
     });
     endpoints.MapControllerRoute(
         name: "default",
-        pattern:"Home",
-        defaults: new
-        {
-            controller = "Home",
-            action = "Index"
-        });
+        pattern: "{area=admin}/{controller=categories}/{action=Index}/{id?}"
+        );     
 });
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 
