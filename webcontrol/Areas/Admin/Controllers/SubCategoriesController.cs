@@ -48,12 +48,7 @@ namespace webcontrol.Areas.Admin.Controllers
         public IActionResult Edit(int id)
         {
             SubCategoryModel model = new SubCategoryModel();
-            var viewModel = _context.SubCategories.Where(x=>x.Id == id).
-                Select(x=> new SubCategoryViewModel() 
-                {
-                   Id = x.Id,
-                   Title =  x.Title, 
-                   CategoryId = x.CategoryId }).FirstOrDefault();
+            var viewModel = _context.SubCategories.Where(x=>x.Id == id).FirstOrDefault();
             if (viewModel != null)
             {
                 model.Id = viewModel.Id;
@@ -66,14 +61,14 @@ namespace webcontrol.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(SubCategoryViewModel vm)
         {
-            var subCategoryFromDB = _context.SubCategories.Where(x => x.Id == vm.Id).FirstOrDefault();
+            SubCategoryModel model = _context.SubCategories.Where(x => x.Id == vm.Id).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                if (subCategoryFromDB != null)
+                if (model != null)
                 {
-                    subCategoryFromDB.Title = vm.Title;
-                    subCategoryFromDB.CategoryId = vm.CategoryId;
-                    _context.SubCategories.Update(subCategoryFromDB);
+                    model.Title = vm.Title;
+                    model.CategoryId = vm.CategoryId;
+                    _context.SubCategories.Update(model);
                     _context.SaveChanges();
                     return RedirectToAction("Index");
                 }

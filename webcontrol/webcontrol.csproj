@@ -28,6 +28,7 @@
     <Folder Include="Areas\Product\Data\" />
     <Folder Include="Areas\Product\Models\" />
     <Folder Include="Areas\Product\Views\" />
+    <Folder Include="wwwroot\Images\Items\" />
   </ItemGroup>
 
   <ItemGroup>

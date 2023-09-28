@@ -12,7 +12,7 @@ using webcontrol.Models;
 namespace webcontrol.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230918152303_Items")]
+    [Migration("20230927165952_Items")]
     partial class Items
     {
         /// <inheritdoc />
@@ -324,8 +324,15 @@ namespace webcontrol.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<int>("SubCategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -334,6 +341,8 @@ namespace webcontrol.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("SubCategoryId");
 
                     b.ToTable("Items");
                 });
@@ -555,7 +564,15 @@ namespace webcontrol.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("webcontrol.Models.SubCategoryModel", "SubCategory")
+                        .WithMany("Items")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("SubCategory");
                 });
 
             modelBuilder.Entity("webcontrol.Models.OrderDetails", b =>
@@ -604,6 +621,11 @@ namespace webcontrol.Migrations
                     b.Navigation("Items");
 
                     b.Navigation("SubCategoryModels");
+                });
+
+            modelBuilder.Entity("webcontrol.Models.SubCategoryModel", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
